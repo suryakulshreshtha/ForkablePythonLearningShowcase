@@ -1,0 +1,47 @@
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+.venv/
+venv/
+env/
+ENV/
+pip-wheel-metadata/
+
+# ─── Playwright ──────────────────────────────────────────────────────────────
+playwright/.local-browsers/
+test-results/
+playwright-report/
+
+# ─── Test Artifacts ──────────────────────────────────────────────────────────
+screenshots/*
+!screenshots/.gitkeep
+reports/*
+!reports/.gitkeep
+reports/videos/
+allure-results/
+allure-report/
+.pytest_cache/
+*.log
+
+# ─── Environment / Secrets ───────────────────────────────────────────────────
+.env
+*.env.local
+.env.*
+!.env.example            # Keep the example, not the real .env
+
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

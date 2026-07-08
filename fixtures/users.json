@@ -1,0 +1,32 @@
+{
+  "valid_users": [
+    {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!",
+      "role": "admin",
+      "expected_landing": "/secure"
+    }
+  ],
+  "invalid_users": [
+    {
+      "username": "wronguser",
+      "password": "SuperSecretPassword!",
+      "expected_error": "Your username is invalid!"
+    },
+    {
+      "username": "tomsmith",
+      "password": "wrongpassword",
+      "expected_error": "Your password is invalid!"
+    },
+    {
+      "username": "",
+      "password": "",
+      "expected_error": "Your username is invalid!"
+    }
+  ],
+  "api_users": [
+    { "id": 1, "name": "Leanne Graham",   "username": "Bret",    "email": "Sincere@april.biz" },
+    { "id": 2, "name": "Ervin Howell",    "username": "Antonette","email": "Shanna@melissa.tv" },
+    { "id": 3, "name": "Clementine Bauch","username": "Samantha", "email": "Nathan@yesenia.net" }
+  ]
+}
