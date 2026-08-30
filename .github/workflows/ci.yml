@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**.md", "LICENSE"]   # a typo fix should not cost minutes
+  pull_request:
+  workflow_dispatch:
+
+# Least privilege. A called workflow can only reduce this, never add to it.
+permissions:
+  contents: read
+
+# Concurrency belongs in the CALLER: it owns the trigger, so it owns the
+# question of what supersedes what.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
+    with:
+      browsers: '["chromium"]'
+      pytest-args: -m smoke
+
+  # API tests need no browser at all -- saves ~90s of install per run.
+  api:
+    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
+    with:
+      needs-browser: false
+      lint-paths: ""
+      pytest-args: -m api
+
+  regression:
+    needs: smoke        # fail fast, and fail cheap
+    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
+    with:
+      browsers: '["chromium"]'
+      pytest-args: -m "regression and not slow" -n auto
