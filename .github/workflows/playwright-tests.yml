@@ -27,6 +27,18 @@ on:
         options: [ chromium, firefox, webkit ]
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Least privilege: without this every job inherits the repository default
+# token, which is frequently contents: write.
+# ─────────────────────────────────────────────────────────────────────────────
+permissions:
+  contents: read
+
+# Three pushes in a minute should not run three browser matrices to completion.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Jobs
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -34,14 +46,22 @@ jobs:
   smoke-tests:
     name: Smoke Tests (${{ matrix.browser }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false          # continue other browsers if one fails
       matrix:
         browser: [ chromium ]   # add firefox, webkit for cross-browser
 
     steps:
+      # NOTE: actions are pinned by tag, not by commit SHA. A tag can be
+      # repointed at any commit by whoever controls the action, which is how
+      # the tj-actions/changed-files compromise reached thousands of repos.
+      # Pin these properly with a tool that resolves real SHAs:
+      #     go install github.com/suzuki-shunsuke/pinact/cmd/pinact@latest
+      #     pinact run
+      # Dependabot (see .github/dependabot.yml) then keeps the SHAs current.
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -89,10 +109,11 @@ jobs:
   regression-tests:
     name: Regression Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: smoke-tests       # only runs if smoke tests pass
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v6
         with:
@@ -131,17 +152,19 @@ jobs:
   api-tests:
     name: API Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: "pip"
 
       - run: pip install -r requirements.txt
-      - run: playwright install chromium --with-deps
 
+      # No browser step: these tests talk HTTP, never open a page. Installing
+      # Chromium here cost ~90s per run for nothing.
       - name: Run API Tests
         run: |
           pytest -m api \

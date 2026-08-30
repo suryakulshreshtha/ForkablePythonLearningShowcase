@@ -1,0 +1,19 @@
+# The dependency set had drifted ~8 months behind the sibling repos before
+# anything noticed. This is what stops that recurring.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      test-stack:
+        patterns: ["pytest*", "playwright"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

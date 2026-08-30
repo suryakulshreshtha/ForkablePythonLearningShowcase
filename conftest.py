@@ -20,6 +20,8 @@ from datetime import datetime
 from playwright.sync_api import sync_playwright, Browser, BrowserContext, Page
 from dotenv import load_dotenv
 
+from config.environments import get_config
+
 # Load .env file (BASE_URL, credentials, etc.)
 load_dotenv()
 
@@ -177,10 +179,21 @@ def authenticated_context(browser, base_url, auth_state_path):
     ctx = browser.new_context(base_url=base_url, viewport={"width": 1280, "height": 720})
     pg  = ctx.new_page()
 
+    # Credentials come from the environment config, not from a second set of
+    # defaults. These previously fell back to admin/admin, which are not the
+    # credentials of the site under test -- so on a fresh fork with no env vars
+    # set, this fixture could never log in, and every test depending on it
+    # failed for a reason no forker would guess.
+    #
+    # The defaults are the credentials the practice site publishes on its own
+    # login page. A fork must go green on the first run with no secret
+    # configuration; the secret override exists to demonstrate the pattern.
+    creds = get_config()
+
     # Perform login
     pg.goto("/login")
-    pg.fill("#username", os.getenv("TEST_USERNAME", "admin"))
-    pg.fill("#password", os.getenv("TEST_PASSWORD", "admin"))
+    pg.fill("#username", creds.username)
+    pg.fill("#password", creds.password)
     pg.click("button[type='submit']")
     pg.wait_for_url("**/secure")          # wait until redirected after login
 

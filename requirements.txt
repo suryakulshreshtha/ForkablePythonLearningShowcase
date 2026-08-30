@@ -1,14 +1,30 @@
-pytest==8.3.4
-playwright==1.49.1
-pytest-playwright==0.6.2
-pytest-html==4.1.1
-pytest-xdist==3.6.1
-pytest-rerunfailures==14.0
-pytest-timeout==2.3.1
-pytest-ordering==0.6
-allure-pytest==2.13.5
-python-dotenv==1.0.1
-Faker==33.1.0
-requests==2.32.3
-pandas==2.2.3
-openpyxl==3.1.5
+# Pinned exactly, and kept current by .github/dependabot.yml. Pinning without
+# automation is just deferred bit-rot.
+pytest==9.0.3
+playwright==1.56.0
+pytest-playwright==0.8.0
+pytest-html==4.2.0
+pytest-xdist==3.8.0
+pytest-rerunfailures==15.1
+pytest-timeout==2.4.0
+python-dotenv==1.1.1
+Faker==37.6.0
+requests==2.32.5
+
+# Removed, deliberately:
+#
+#   pytest-ordering  - last released 2019, predating pytest 6, and pinned here
+#                      against pytest 8. It was also never imported: nothing in
+#                      this repo orders tests. If a real sequence ever appears,
+#                      express it as a fixture dependency; if a demo genuinely
+#                      needs ordering, use pytest-order (the maintained fork)
+#                      and explain in the README why ordered tests are a last
+#                      resort -- tests that must run in a fixed order are not
+#                      independent, which contradicts what this repo teaches.
+#
+#   pandas, openpyxl - ~40MB of install for a repo that never imports either.
+#                      Data-driven tests here read JSON and CSV with the stdlib.
+#
+#   allure-pytest    - declared but no workflow ever generated an Allure report.
+#                      A declared-but-unused reporting stack reads as aspiration.
+#                      Re-add it together with the CI step that publishes it.
