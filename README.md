@@ -3,7 +3,6 @@
 > **A production-grade test automation framework** built with Playwright + Python + pytest  
 > Covers UI, API, E2E testing — with Page Object Model, data-driven tests, CI/CD, and parallel execution.
 
-[![Playwright Tests CI](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/playwright-tests.yml/badge.svg)](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/playwright-tests.yml)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![Playwright](https://img.shields.io/badge/playwright-1.49-green.svg)](https://playwright.dev/python/)
 [![pytest](https://img.shields.io/badge/pytest-8.3-orange.svg)](https://docs.pytest.org/)
