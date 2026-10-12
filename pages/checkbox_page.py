@@ -5,6 +5,7 @@ Covers: check, uncheck, verify state, toggle all.
 """
 
 from playwright.sync_api import Page, expect
+
 from pages.base_page import BasePage
 
 

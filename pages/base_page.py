@@ -11,9 +11,10 @@ Why a Base Page?
     touching every individual page object
 """
 
-import re
-from playwright.sync_api import Page, expect, Locator
 import logging
+import re
+
+from playwright.sync_api import Locator, Page, expect
 
 logger = logging.getLogger(__name__)
 
@@ -77,8 +78,8 @@ class BasePage:
         target = self.page.locator(locator) if isinstance(locator, str) else locator
         target.type(text, delay=delay)
 
-    def select_option(self, locator: str | Locator, value: str = None,
-                      label: str = None, index: int = None):
+    def select_option(self, locator: str | Locator, value: str | None = None,
+                      label: str | None = None, index: int | None = None):
         """Select a <select> dropdown option by value, label, or index."""
         target = self.page.locator(locator) if isinstance(locator, str) else locator
         if value:
@@ -219,7 +220,7 @@ class BasePage:
 
     # ─── Dialogs ─────────────────────────────────────────────────────────────
 
-    def handle_dialog(self, action: str = "accept", prompt_text: str = None):
+    def handle_dialog(self, action: str = "accept", prompt_text: str | None = None):
         """
         Register a one-time dialog handler.
         Must be called BEFORE the action that triggers the dialog.
@@ -234,7 +235,7 @@ class BasePage:
 
     # ─── Frame Handling ──────────────────────────────────────────────────────
 
-    def get_frame(self, frame_name: str = None, url: str = None):
+    def get_frame(self, frame_name: str | None = None, url: str | None = None):
         """Switch to an iframe by name or URL."""
         if frame_name:
             return self.page.frame(name=frame_name)

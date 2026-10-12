@@ -13,10 +13,11 @@ Covers:
 """
 
 import re
-import pytest
-from playwright.sync_api import Page, expect
-from pages import DynamicLoadingPage, AlertsPage, DragDropPage
 
+import pytest
+from playwright.sync_api import expect
+
+from pages import AlertsPage, DragDropPage, DynamicLoadingPage
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Dynamic Loading / AJAX Waits
@@ -223,7 +224,7 @@ class TestNetworkInterception:
 
         page.route("**/", modify_response)
         page.goto("/")
-        title = page.title()
+        page.title()
         # In a real scenario you'd assert the title contains "[MODIFIED]"
 
 

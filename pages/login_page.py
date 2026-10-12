@@ -8,7 +8,9 @@ POM Rule: Tests should never contain raw selectors.
 """
 
 import re
+
 from playwright.sync_api import Page, expect
+
 from pages.base_page import BasePage
 
 
@@ -69,7 +71,7 @@ class LoginPage(BasePage):
         expect(self.page.locator(self.SUCCESS_MESSAGE)).to_be_visible()
         expect(self.page).to_have_url(re.compile(r"/secure$"))
 
-    def assert_login_error(self, expected_message: str = None):
+    def assert_login_error(self, expected_message: str | None = None):
         expect(self.page.locator(self.ERROR_MESSAGE)).to_be_visible()
         if expected_message:
             expect(self.page.locator(self.FLASH_MESSAGE)).to_contain_text(expected_message)

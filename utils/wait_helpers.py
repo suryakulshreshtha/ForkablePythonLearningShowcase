@@ -9,10 +9,13 @@ These utilities cover the remaining 10%:
   - Retry wrappers for flaky external dependencies
 """
 
-import time
 import logging
-from typing import Callable, Any
-from playwright.sync_api import Page, Locator, TimeoutError as PlaywrightTimeoutError
+import time
+from collections.abc import Callable
+from typing import Any
+
+from playwright.sync_api import Locator, Page
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
 logger = logging.getLogger(__name__)
 

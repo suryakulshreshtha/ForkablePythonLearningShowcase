@@ -13,6 +13,7 @@ Usage in fixtures (conftest.py):
 
 import os
 from dataclasses import dataclass
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -64,7 +65,7 @@ ENVIRONMENTS = {
 }
 
 
-def get_config(env_name: str = None) -> EnvironmentConfig:
+def get_config(env_name: str | None = None) -> EnvironmentConfig:
     """
     Returns the EnvironmentConfig for the given environment name.
     Falls back to ENV variable, then 'staging' as default.

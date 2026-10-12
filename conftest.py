@@ -15,10 +15,11 @@ Key concepts covered:
 """
 
 import os
-import pytest
 from datetime import datetime
-from playwright.sync_api import sync_playwright, Browser, BrowserContext, Page
+
+import pytest
 from dotenv import load_dotenv
+from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
 
 # Load .env file (BASE_URL, credentials, etc.)
 load_dotenv()

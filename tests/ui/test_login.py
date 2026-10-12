@@ -10,10 +10,11 @@ Demonstrates:
 """
 
 import re
+
 import pytest
+
 from pages.login_page import LoginPage
 from pages.secure_page import SecurePage
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Test Class — groups related tests, shares setup via class-level fixture
