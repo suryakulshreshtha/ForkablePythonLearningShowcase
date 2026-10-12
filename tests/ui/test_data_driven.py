@@ -14,12 +14,12 @@ Data-driven testing is powerful for:
 """
 
 import csv
-import json
 import os
+
 import pytest
 from playwright.sync_api import Page
-from pages.login_page import LoginPage
 
+from pages.login_page import LoginPage
 
 # ─────────────────────────────────────────────────────────────────────────────
 # APPROACH 1: Inline parametrize
@@ -150,6 +150,5 @@ def test_password_length_boundaries(page: Page, length: int, should_pass: bool):
     login_page.click_login()
     # For the test site, only exact password works — this tests the pattern
     # In real apps: assert actual validation behaviour matches expected
-    result = "pass" if "/secure" in page.url else "fail"
     # We just verify the page responded without crashing
     assert page.url is not None

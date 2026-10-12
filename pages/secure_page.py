@@ -2,7 +2,9 @@
 pages/secure_page.py — Secure (Post-Login) Page Object
 """
 import re
+
 from playwright.sync_api import Page, expect
+
 from pages.base_page import BasePage
 
 

@@ -12,10 +12,10 @@ These are faster than E2E tests because they test one thing at a time.
 """
 
 import pytest
-from playwright.sync_api import Page, expect
-from pages import CheckboxPage, DropdownPage, TablePage
-from utils.helpers import assert_sorted_ascending, assert_sorted_descending
+from playwright.sync_api import Page
 
+from pages import CheckboxPage, DropdownPage, TablePage
+from utils.helpers import assert_sorted_ascending
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Checkboxes

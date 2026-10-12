@@ -6,12 +6,13 @@ Keep these STATELESS (no page/browser dependency) — they work
 on data, not on browser objects.
 """
 
-import os
-import json
 import csv
+import json
+import os
 import random
 import string
 from datetime import datetime
+
 from faker import Faker
 
 faker = Faker()
@@ -55,7 +56,7 @@ def timestamp() -> str:
 
 def read_json(filepath: str) -> dict:
     """Read and parse a JSON file."""
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -109,14 +110,14 @@ def assert_sorted_descending(items: list) -> bool:
 # Environment Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
-def get_env_var(name: str, default: str = None) -> str:
+def get_env_var(name: str, default: str | None = None) -> str:
     """
     Get an environment variable.
     Raises a clear error if required var is missing (no default provided).
     """
     value = os.getenv(name, default)
     if value is None:
-        raise EnvironmentError(
+        raise OSError(
             f"Required environment variable '{name}' is not set. "
             f"Please set it in .env or your CI/CD environment."
         )

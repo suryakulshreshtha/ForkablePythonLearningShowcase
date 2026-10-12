@@ -15,8 +15,7 @@ Compared to `requests` library:
 """
 
 import pytest
-from playwright.sync_api import APIRequestContext, expect
-
+from playwright.sync_api import APIRequestContext
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Fixtures: API Request Context
@@ -205,7 +204,7 @@ class TestHybridAPIUI:
 
         # Step 2: Verify via UI (in a real app, navigate to the post page)
         # For jsonplaceholder, we just verify the API round-trip
-        get_response = api_context.get(f"/posts/{post_id}")
+        api_context.get(f"/posts/{post_id}")
         # Note: jsonplaceholder resets after each request; 
         # a real app would persist this and we'd assert it in the browser
         assert post_id is not None

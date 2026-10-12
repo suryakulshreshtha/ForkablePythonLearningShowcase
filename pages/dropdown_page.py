@@ -5,6 +5,7 @@ Covers: select by value, by label, by index, verify selection.
 """
 
 from playwright.sync_api import Page, expect
+
 from pages.base_page import BasePage
 
 

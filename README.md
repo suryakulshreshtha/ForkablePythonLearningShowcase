@@ -1,5 +1,7 @@
 # 🎭 Playwright Pytest Automation Framework
 
+[![CI](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/ci.yml/badge.svg)](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/ci.yml)
+
 > **A production-grade test automation framework** built with Playwright + Python + pytest  
 > Covers UI, API, E2E testing — with Page Object Model, data-driven tests, CI/CD, and parallel execution.
 
