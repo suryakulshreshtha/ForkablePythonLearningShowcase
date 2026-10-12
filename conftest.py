@@ -225,9 +225,16 @@ def pytest_runtest_makereport(item, call):
         # Try to get the 'page' fixture from the test item
         page_fixture = item.funcargs.get("page") or item.funcargs.get("logged_in_page")
         if page_fixture:
-            os.makedirs("screenshots", exist_ok=True)
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            safe_name  = item.name.replace("/", "_").replace(" ", "_")
-            path       = f"screenshots/FAIL_{safe_name}_{timestamp}.png"
-            page_fixture.screenshot(path=path, full_page=True)
-            print(f"\n📸 Screenshot saved: {path}")
+            # A screenshot is a diagnostic. If the page is already gone (a crashed tab, a test
+            # that closed it, a timeout that left it unusable) the screenshot itself raises, and
+            # an exception inside a hook is a pytest INTERNALERROR: exit code 3, and every test
+            # after this one never runs. So it must never be allowed to fail the session.
+            try:
+                os.makedirs("screenshots", exist_ok=True)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                safe_name  = item.name.replace("/", "_").replace(" ", "_")
+                path       = f"screenshots/FAIL_{safe_name}_{timestamp}.png"
+                page_fixture.screenshot(path=path, full_page=True, timeout=10_000)
+                print(f"\n📸 Screenshot saved: {path}")
+            except Exception as exc:
+                print(f"\n(no screenshot for {item.name}: {type(exc).__name__})")
