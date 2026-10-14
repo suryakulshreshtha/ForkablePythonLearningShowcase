@@ -1,6 +1,7 @@
 # 🎭 Playwright Pytest Automation Framework
 
 [![CI](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/ci.yml/badge.svg)](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/ci.yml)
+[![Live sites](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/live-sites.yml/badge.svg)](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/live-sites.yml)
 
 > **A production-grade test automation framework** built with Playwright + Python + pytest  
 > Covers UI, API, E2E testing — with Page Object Model, data-driven tests, CI/CD, and parallel execution.
@@ -135,7 +136,7 @@ pytest --headless=false -m smoke
 
 | Marker | Description | Run Command |
 |---|---|---|
-| `smoke` | Critical path — runs on every commit | `pytest -m smoke` |
+| `smoke` | Critical path — the quick first run | `pytest -m smoke` |
 | `regression` | Full suite — runs before release | `pytest -m regression` |
 | `ui` | Browser-based UI tests | `pytest -m ui` |
 | `api` | API / HTTP layer tests | `pytest -m api` |
@@ -143,6 +144,10 @@ pytest --headless=false -m smoke
 | `data_driven` | Tests reading external data | `pytest -m data_driven` |
 | `login` | Authentication tests | `pytest -m login` |
 | `slow` | Tests taking > 30 seconds | `pytest -m "not slow"` |
+
+### CI in two workflows
+
+`ci.yml` gates every push and pull request on what this repository controls: Ruff, test collection and the API tests. `live-sites.yml` runs the browser tests (`smoke`, then `regression`) against the-internet.herokuapp.com, weekly and on demand, and has its own badge. That site is not ours, and from a shared GitHub runner it can be slow or unreachable, so a red Live sites badge means "go and look at the site", not "your change is broken".
 
 ---
 
