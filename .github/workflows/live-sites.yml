@@ -1,0 +1,51 @@
+# =============================================================================
+# THE LIVE SITE: the browser tests, against a site we do not own.
+#
+# Deliberately NOT part of ci.yml. These tests drive the-internet.herokuapp.com.
+# From a shared GitHub runner that site can be slow or unreachable: in one run
+# every page load hit the 30 second limit. So this runs weekly and on demand,
+# and has its own badge. Red here means "go and look at the site", not "your
+# change is broken".
+# =============================================================================
+name: Live sites
+
+on:
+  workflow_dispatch:                        # adds a "Run workflow" button
+  schedule:
+    - cron: "0 3 * * 1"                     # Mondays 03:00 UTC (cron is UTC)
+
+# Least privilege. A called workflow can only reduce this, never add to it.
+permissions:
+  contents: read
+
+concurrency:
+  group: live-sites-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Fail fast and cheap with a clear message, instead of 15 tests that each
+  # wait 30 seconds for a page that never loads.
+  reachable:
+    name: Is the practice site reachable?
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Ask the site for its login page
+        run: |
+          curl --fail --silent --show-error --location --max-time 30 --output /dev/null \
+               --write-out 'HTTP %{http_code} in %{time_total}s\n' \
+               https://the-internet.herokuapp.com/login
+
+  smoke:
+    needs: reachable
+    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
+    with:
+      browsers: '["chromium"]'
+      pytest-args: -m smoke
+
+  regression:
+    needs: smoke        # fail fast, and fail cheap
+    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
+    with:
+      browsers: '["chromium"]'
+      pytest-args: -m "regression and not slow" -n auto

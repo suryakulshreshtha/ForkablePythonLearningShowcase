@@ -18,12 +18,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  smoke:
-    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
-    with:
-      browsers: '["chromium"]'
-      pytest-args: -m smoke
-
+  # The merge gate: only what this repository controls. Ruff, test collection
+  # and the API tests. The browser tests drive a public practice site that is
+  # not ours, so they live in live-sites.yml and do not gate a merge.
+  #
   # API tests need no browser at all -- saves ~90s of install per run.
   # A test that is also marked `ui` asks for a browser fixture and this job
   # installs none, so "not ui" keeps it out of here. It still runs locally.
@@ -31,12 +29,4 @@ jobs:
     uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
     with:
       needs-browser: false
-      lint-paths: ""
       pytest-args: -m "api and not ui"
-
-  regression:
-    needs: smoke        # fail fast, and fail cheap
-    uses: suryakulshreshtha/.github/.github/workflows/python-playwright.yml@v1
-    with:
-      browsers: '["chromium"]'
-      pytest-args: -m "regression and not slow" -n auto
