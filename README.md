@@ -1,3 +1,7 @@
+<!-- forkable-card:start (added by apply_cards.py; re-run it to update) -->
+![Python Learning Showcase: test automation fundamentals with UI, API and end-to-end tests in Playwright and pytest](.github/assets/forkable-card.png)
+<!-- forkable-card:end -->
+
 # 🎭 Playwright Pytest Automation Framework
 
 [![CI](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/ci.yml/badge.svg)](https://github.com/suryakulshreshtha/ForkablePythonLearningShowcase/actions/workflows/ci.yml)
