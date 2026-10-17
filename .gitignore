@@ -36,7 +36,8 @@ allure-report/
 .env
 *.env.local
 .env.*
-!.env.example            # Keep the example, not the real .env
+# Keep the example, not the real .env (a comment can't share a line with a rule)
+!.env.example
 
 # ─── IDE ─────────────────────────────────────────────────────────────────────
 .idea/
